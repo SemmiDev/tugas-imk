@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'POSTS'])
+@extends('layouts.app', ['title' => 'FAMILY'])
 
 @section('head')
 <style>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             Published on {{ $post->created_at->diffForHumans() }}
-                            <a href="posts/edit/{{ $post->slug }}" class="btn btn-success btn-sm">Edit</a>
+                            <a href="posts/{{ $post->slug }}/edit" class="btn btn-success btn-sm">Edit</a>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -21,19 +22,17 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('post.create');
+        return view('post.create', ['post' => new Post()]);
     }
 
-    public function store()
+    public function store(PostRequest $request)
     {
-        $validation = request()->validate([
-            'title' => 'required|min:3|max:50',
-            'body' => 'required'
-        ]);
 
-        $validation['slug'] = \Str::slug(request('title'));
-        Post::create($validation);
+        $attr = $request->all();
+        $attr['slug'] = \Str::slug(request('title'));
+        Post::create($attr);
         session()->flash('success', 'The post was created');
+        // session()->flash('error', 'The post failed created');
 
         return redirect('posts');
     }
@@ -43,8 +42,19 @@ class PostController extends Controller
         return view('post.edit', compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(PostRequest $request,  Post $post)
     {
-        dd('updated');
+        $attr = $request->all();
+        $post->update($attr);
+
+        session()->flash('success', 'The post was updated');
+        return redirect('posts');
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        session()->flash('success', 'The post was deleted');
+        return redirect('posts');
     }
 }
