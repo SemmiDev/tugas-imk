@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'FAMILY'])
+@extends('layouts.app', ['title' => {{ $post->title }}])
 
 @section('head')
 <style>
@@ -12,14 +12,7 @@
 <div class="container">
         <div class="d-flex justify-content-between">
             <div>
-                @isset($category)
-                    <h4 style="color: aliceblue">Status: {{ $category->name }}</h4>
-                @else
-                    <h4 style="color: aliceblue">Family</h4>
-                @endisset
-            </div>
-            <div>
-
+                <h4 style="color: aliceblue">Family</h4>
                 <hr>
             </div>
             <div>
