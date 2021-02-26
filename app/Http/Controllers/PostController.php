@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except(['index','show']);
+    // }
+
+
     public function index()
     {
         return view('post.index', [
@@ -22,14 +30,21 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('post.create', ['post' => new Post()]);
+        return view('post.create', [
+            'post' => new Post(),
+            'categories' => Category::get()
+        ]);
     }
 
     public function store(PostRequest $request)
     {
 
         $attr = $request->all();
+
         $attr['slug'] = \Str::slug(request('title'));
+        $attr['category_id'] = request('category');
+
+
         Post::create($attr);
         session()->flash('success', 'The post was created');
         // session()->flash('error', 'The post failed created');
@@ -39,7 +54,10 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('post.edit', compact('post'));
+        return view('post.edit', [
+            'post' => $post,
+            'categories' => Category::get()
+        ]);
     }
 
     public function update(PostRequest $request,  Post $post)

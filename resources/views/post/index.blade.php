@@ -13,19 +13,23 @@
         <div class="d-flex justify-content-between">
             <div>
                 @isset($category)
-                    <h4 style="color: aliceblue">Status: {{ $category->name }}</h4>
+                    <h4>Status: {{ $category->name }}</h4>
+                    <hr>
                 @else
-                    <h4 style="color: aliceblue">Family</h4>
+                    <h4>Family</h4>
+                    <hr>
                 @endisset
             </div>
             <div>
 
-                <hr>
-            </div>
-            <div>
-                <a href="posts/create" class="btn btn-primary">NEW MEMBER</a>
-            </div>
+                @if (Auth::check())
+                    <a href=" {{ route('posts.create') }} " class="btn btn-primary">NEW MEMBER</a>
+                @else
+                    <a href=" {{ route('login') }} " class="btn btn-primary">Login to create new member</a>
+                @endif
+                </div>
         </div>
+        <br>
 
         <div class="row">
             @forelse ($posts as $post)
@@ -44,13 +48,15 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             Published on {{ $post->created_at->diffForHumans() }}
-                            <a href="posts/{{ $post->slug }}/edit" class="btn btn-success btn-sm">Edit</a>
+                            @auth
+                                <a href="posts/{{ $post->slug }}/edit" class="btn btn-success btn-sm">Edit</a>
+                            @endauth
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="alert alert-info">
-                    There are no posts!
+                    There are no member!
                 </div>
             @endforelse
         </div>

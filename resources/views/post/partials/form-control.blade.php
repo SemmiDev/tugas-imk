@@ -8,6 +8,23 @@
     @enderror
 
 </div>
+
+<div class="form-group">
+    <label for="Category">Status</label>
+    <select name="category" id="category" class="form-control">
+        <option disabled selected>Choose one!</option>
+        @foreach ($categories as $category)
+            <option {{ $category->id == $post->category_id ? 'selected' : ''}} value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+        @error('category')
+        <div class="text-danger mt-2">
+            {{ $message }}
+        </div>
+    @enderror
+
+</div>
+
 <div class="form-group">
     <label for="body">Deskripsi</label>
     <textarea name="body" id="body" class="form-control">{{ old('body') ?? $post->body }}</textarea>
